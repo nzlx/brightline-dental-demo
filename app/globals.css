@@ -262,6 +262,22 @@ html.lenis body {
   animation: ping-soft 1.8s ease-out infinite;
 }
 
+@keyframes pin-pulse {
+  from {
+    transform: scale(0.35);
+    opacity: 0.6;
+  }
+  to {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+.pin-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pin-pulse 2.8s ease-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

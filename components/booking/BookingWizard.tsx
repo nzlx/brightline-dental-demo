@@ -36,6 +36,7 @@ type Action =
   | { type: "visit"; id: string }
   | { type: "patient"; value: "new" | "existing" }
   | { type: "provider"; id: string }
+  | { type: "clearProvider" }
   | { type: "date"; key: string }
   | { type: "time"; date: string; time: string; assignedId: string }
   | { type: "details"; details: Details }
@@ -104,9 +105,14 @@ function reducer(s: BookingState, a: Action): BookingState {
     case "preset": {
       const base = s.step === "done" ? initialState : s;
       const { visitId, providerId, patient } = a.preset;
+      let keepVisit = visitId ?? base.visitId;
+      // "Book with Dr. X": a visit picked earlier that X doesn't offer is dropped, so the provider wins.
+      if (providerId && !visitId && keepVisit && !getVisit(keepVisit)?.providers.includes(providerId as never)) keepVisit = null;
+      const changedVisit = keepVisit !== base.visitId;
       const next = revalidate({
         ...base,
-        visitId: visitId ?? base.visitId,
+        ...(changedVisit || providerId ? { date: null, time: null, assignedId: null } : {}),
+        visitId: keepVisit,
         providerId: providerId ?? base.providerId,
         patient: patient ?? base.patient,
       });
@@ -121,6 +127,8 @@ function reducer(s: BookingState, a: Action): BookingState {
       return advance(s, { ...s, patient: a.value });
     case "provider":
       return advance(s, revalidate({ ...s, providerId: a.id }));
+    case "clearProvider":
+      return { ...s, providerId: null, date: null, time: null, assignedId: null };
     case "date":
       return advance(s, { ...s, date: a.key, time: s.date === a.key ? s.time : null });
     case "time":
@@ -181,7 +189,14 @@ export default function BookingWizard() {
   const renderStep = () => {
     switch (s.step) {
       case "visit":
-        return <StepVisit selected={s.visitId} onSelect={(id) => act({ type: "visit", id })} />;
+        return (
+          <StepVisit
+            selected={s.visitId}
+            providerId={s.providerId}
+            onSelect={(id) => act({ type: "visit", id })}
+            onClearProvider={() => act({ type: "clearProvider" })}
+          />
+        );
       case "patient":
         return <StepPatient visitId={s.visitId} selected={s.patient} onSelect={(value) => act({ type: "patient", value })} />;
       case "provider":
