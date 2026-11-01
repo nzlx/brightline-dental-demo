@@ -38,7 +38,7 @@ html {
 }
 
 body {
-  background: var(--color-white);
+  /* No body background: the fixed 3D layer (z-index -1) must show through the hero. */
   color: var(--color-ink);
   font-family: var(--font-sans);
   text-rendering: optimizeLegibility;
@@ -260,6 +260,147 @@ html.lenis body {
 }
 .ping-soft {
   animation: ping-soft 1.8s ease-out infinite;
+}
+
+/* The 3D layer sits behind all in-flow content (body has no background of its own),
+   so it shows through the transparent hero and is covered by sections with a background. */
+.tooth-canvas {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100lvh;
+  z-index: -1;
+  pointer-events: none;
+}
+/* Placeholder image hands over to the live scene once its first frame is drawn. */
+.tooth-placeholder {
+  transition: opacity 0.7s var(--ease-soft);
+}
+html[data-tooth-live] .tooth-placeholder {
+  opacity: 0;
+}
+
+/* Hero mesh gradient: big soft color fields drifting slowly (transforms only, no blur filter). */
+.mesh {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  overflow: hidden;
+  background: #fff;
+}
+.mesh span {
+  position: absolute;
+  border-radius: 9999px;
+  will-change: transform;
+}
+.mesh .m1 {
+  width: 70vmax;
+  height: 70vmax;
+  right: -22vmax;
+  top: -26vmax;
+  background: radial-gradient(closest-side, rgb(20 168 160 / 0.28), rgb(20 168 160 / 0) 72%);
+  animation: drift-a 22s ease-in-out infinite alternate;
+}
+.mesh .m2 {
+  width: 62vmax;
+  height: 62vmax;
+  left: -24vmax;
+  bottom: -30vmax;
+  background: radial-gradient(closest-side, rgb(125 196 230 / 0.35), rgb(125 196 230 / 0) 72%);
+  animation: drift-b 26s ease-in-out infinite alternate;
+}
+.mesh .m3 {
+  width: 46vmax;
+  height: 46vmax;
+  left: 34%;
+  top: 18%;
+  background: radial-gradient(closest-side, rgb(207 230 240 / 0.9), rgb(207 230 240 / 0) 70%);
+  animation: drift-c 18s ease-in-out infinite alternate;
+}
+.mesh .m4 {
+  width: 34vmax;
+  height: 34vmax;
+  right: 8%;
+  bottom: -12vmax;
+  background: radial-gradient(closest-side, rgb(255 226 122 / 0.28), rgb(255 226 122 / 0) 70%);
+  animation: drift-a 30s ease-in-out infinite alternate-reverse;
+}
+@keyframes drift-a {
+  to {
+    transform: translate3d(-8vmax, 6vmax, 0) scale(1.08);
+  }
+}
+@keyframes drift-b {
+  to {
+    transform: translate3d(10vmax, -6vmax, 0) scale(1.12);
+  }
+}
+@keyframes drift-c {
+  to {
+    transform: translate3d(-6vmax, -8vmax, 0) scale(0.92);
+  }
+}
+
+/* Headline lines rise from under a mask. */
+.line-mask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+.line-mask > span {
+  display: block;
+  animation: line-up 1s var(--ease-out-expo) both;
+}
+@keyframes line-up {
+  from {
+    transform: translate3d(0, 105%, 0);
+  }
+  to {
+    transform: none;
+  }
+}
+
+/* Hero layout: phones stack headline → tooth → copy; desktop puts the tooth beside both. */
+.hero-grid {
+  grid-template-areas: "head" "tooth" "rest";
+  align-content: center;
+}
+@media (min-width: 64rem) {
+  .hero-grid {
+    grid-template-columns: 1.12fr 0.88fr;
+    grid-template-rows: auto auto;
+    grid-template-areas: "head tooth" "rest tooth";
+  }
+}
+
+@keyframes scroll-dot {
+  0% {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+  80% {
+    transform: translate(-50%, 14px);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.scroll-dot {
+  animation: scroll-dot 1.8s ease-in-out infinite;
+}
+
+/* Frosted glass for floating cards over the 3D scene. */
+.glass {
+  background: rgb(255 255 255 / 0.55);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  backdrop-filter: blur(16px) saturate(1.4);
+  border: 1px solid rgb(255 255 255 / 0.75);
+  box-shadow:
+    0 1px 0 rgb(255 255 255 / 0.8) inset,
+    0 24px 48px -24px rgb(15 42 61 / 0.3);
 }
 
 @keyframes pin-pulse {

@@ -67,6 +67,9 @@ export const hero = {
   eyebrow: "Family dentistry in South Austin",
   title: "The dentist your family actually looks forward to.",
   highlight: "looks forward to.",
+  /** The title broken into the lines that rise from under the mask (the last one is highlighted). */
+  titleLines: ["The dentist your", "family actually", "looks forward to."],
+  toothAlt: "A glossy 3D model of a healthy molar",
   subtitle:
     "Cleanings, fillings, whitening and same-day emergencies — with a team that explains everything and never rushes you.",
   cta: "Book a Visit",

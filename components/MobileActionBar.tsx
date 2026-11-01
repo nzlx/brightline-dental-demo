@@ -8,16 +8,17 @@ import Icon from "./ui/Icon";
 
 /**
  * Phone-only floating Call + Book bar. For a dental office a call matters as much as a booking,
- * so both get equal weight. Shows after the hero, hides while the booking form or footer is on screen.
+ * so both get equal weight. Shows while the hero buttons are off screen, hides over the booking form and footer.
  */
 export default function MobileActionBar() {
   const [pastHero, setPastHero] = useState(false);
   const [covered, setCovered] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setPastHero(window.scrollY > window.innerHeight * 0.55);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
+    // Visible whenever the hero's own Call/Book buttons are off screen (including below the fold on load).
+    const cta = document.getElementById("hero-cta");
+    const heroIo = new IntersectionObserver(([e]) => setPastHero(!e.isIntersecting));
+    if (cta) heroIo.observe(cta);
     const seen = new Set<Element>();
     const io = new IntersectionObserver(
       (entries) => {
@@ -31,7 +32,7 @@ export default function MobileActionBar() {
       if (el) io.observe(el);
     }
     return () => {
-      window.removeEventListener("scroll", onScroll);
+      heroIo.disconnect();
       io.disconnect();
     };
   }, []);
