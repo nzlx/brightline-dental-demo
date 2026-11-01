@@ -3,8 +3,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Environment, Lightformer } from "@react-three/drei";
-import { Color, MathUtils, MeshPhysicalMaterial, NeutralToneMapping, NormalBlending, type BufferGeometry, type Group } from "three";
-import { loadToothMeshes } from "@/lib/tooth-mesh";
+import { Color, MathUtils, Mesh, MeshPhysicalMaterial, NeutralToneMapping, NormalBlending, type Group, type Object3D } from "three";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { MeshoptDecoder } from "three/examples/jsm/libs/meshopt_decoder.module.js";
 
 /**
  * Fixed, full-viewport canvas behind the page content (z-index -1). The tooth follows the
@@ -12,8 +13,15 @@ import { loadToothMeshes } from "@/lib/tooth-mesh";
  * 3D sits exactly where the placeholder image was. Rendering pauses when the anchor is off screen.
  */
 
-const TOOTH_HEIGHT = 3.1; // model units, see lib/tooth-sdf.ts
-const INITIAL_ROT = { x: 0.16, y: -0.55 };
+const TOOTH_HEIGHT = 3.06; // model units, see scripts/build-tooth.mjs
+const INITIAL_ROT = { x: 0.14, y: -0.42 };
+
+/** Loads public/models/tooth.glb (meshopt-compressed) and returns its root object. */
+async function loadTooth() {
+  const loader = new GLTFLoader().setMeshoptDecoder(MeshoptDecoder);
+  const gltf = await loader.loadAsync("/models/tooth.glb");
+  return gltf.scene;
+}
 
 type Opts = { mobile: boolean; snapshot: boolean; onReady: () => void };
 
@@ -76,29 +84,71 @@ function useAnchor(id: string) {
   return rect;
 }
 
-function makeEnamel() {
+/**
+ * One material for the whole tooth: pearly, clear-coated enamel on the crown that blends
+ * (via the baked _rootness attribute) into warmer, satin ivory roots. Vertex colors carry the hue;
+ * a soft teal fresnel rim keeps the white silhouette readable on a white page.
+ */
+function makeToothMaterial() {
   const m = new MeshPhysicalMaterial({
-    color: "#fdfcf8",
-    roughness: 0.16,
+    vertexColors: true,
+    roughness: 0.14,
     metalness: 0,
     clearcoat: 1,
-    clearcoatRoughness: 0.08,
-    sheen: 0.35,
-    sheenColor: new Color("#bfe9e5"),
-    sheenRoughness: 0.5,
+    clearcoatRoughness: 0.06,
+    sheen: 0.25,
+    sheenColor: new Color("#ffffff"),
+    sheenRoughness: 0.45,
   });
-  // Soft teal glow on the silhouette (fresnel rim).
-  m.onBeforeCompile = (s) => {
-    s.uniforms.uRim = { value: new Color("#14a8a0") };
-    s.uniforms.uRimStrength = { value: 0.7 };
-    s.fragmentShader =
-      "uniform vec3 uRim;\nuniform float uRimStrength;\n" +
-      s.fragmentShader.replace(
+  m.onBeforeCompile = (sh) => {
+    sh.uniforms.uRim = { value: new Color("#14a8a0") };
+    sh.uniforms.uRimStrength = { value: 0.45 };
+    sh.vertexShader = sh.vertexShader
+      .replace("#include <common>", "#include <common>\nattribute float _rootness;\nvarying float vRoot;")
+      .replace("#include <begin_vertex>", "#include <begin_vertex>\nvRoot = _rootness;");
+    sh.fragmentShader = sh.fragmentShader
+      .replace("#include <common>", "#include <common>\nuniform vec3 uRim;\nuniform float uRimStrength;\nvarying float vRoot;")
+      .replace("#include <roughnessmap_fragment>", "#include <roughnessmap_fragment>\nroughnessFactor = mix(roughnessFactor, 0.42, vRoot);")
+      .replace(
+        "#include <lights_physical_fragment>",
+        "#include <lights_physical_fragment>\nmaterial.clearcoat *= 1.0 - 0.8 * vRoot;\nmaterial.sheenColor *= 1.0 - vRoot;",
+      )
+      .replace(
         "#include <opaque_fragment>",
         "float rimF = pow(1.0 - saturate(dot(normal, normalize(vViewPosition))), 3.0);\noutgoingLight += uRim * rimF * uRimStrength;\n#include <opaque_fragment>",
       );
   };
   return m;
+}
+
+/** Soft contact shadow under the tooth; fades and widens as the tooth floats up. */
+function Shadow({ lift }: { lift: React.RefObject<number> }) {
+  const ref = useRef<Mesh>(null);
+  const uniforms = useMemo(() => ({ uOpacity: { value: 0.22 } }), []);
+  useFrame(() => {
+    const k = lift.current ?? 0;
+    uniforms.uOpacity.value = 0.22 - k * 0.6;
+    ref.current?.scale.set(2.3 + k * 2, 0.55 + k * 0.4, 1);
+  });
+  return (
+    <mesh ref={ref} position={[0, -TOOTH_HEIGHT / 2 - 0.28, -0.4]} renderOrder={-1}>
+      <planeGeometry args={[1, 1]} />
+      <shaderMaterial
+        transparent
+        depthWrite={false}
+        uniforms={uniforms}
+        vertexShader={`varying vec2 vUv;
+          void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`}
+        fragmentShader={`uniform float uOpacity;
+          varying vec2 vUv;
+          void main() {
+            float d = length(vUv - 0.5) * 2.0;
+            float a = smoothstep(1.0, 0.0, d);
+            gl_FragColor = vec4(0.06, 0.16, 0.24, a * a * uOpacity);
+          }`}
+      />
+    </mesh>
+  );
 }
 
 function Particles({ count, pointer }: { count: number; pointer: React.RefObject<{ x: number; y: number }> }) {
@@ -185,10 +235,21 @@ function Particles({ count, pointer }: { count: number; pointer: React.RefObject
   );
 }
 
-function Tooth({ geometry, mobile, snapshot, onReady }: Opts & { geometry: BufferGeometry }) {
+function Tooth({ model, mobile, snapshot, onReady }: Opts & { model: Object3D }) {
   const rig = useRef<Group>(null);
   const spin = useRef<Group>(null);
-  const material = useMemo(makeEnamel, []);
+  const material = useMemo(makeToothMaterial, []);
+  const lift = useRef(0);
+  // Snapshot mode can be posed from the URL (?tooth-snapshot&ry=0.5) to inspect the model from any side.
+  const pose = useMemo(() => {
+    const q = new URLSearchParams(location.search);
+    return { x: Number(q.get("rx") ?? INITIAL_ROT.x), y: Number(q.get("ry") ?? INITIAL_ROT.y) };
+  }, []);
+  useEffect(() => {
+    model.traverse((o) => {
+      if (o instanceof Mesh) o.material = material;
+    });
+  }, [model, material]);
   const pointer = usePointer(mobile);
   const anchor = useAnchor("tooth-anchor");
   const { viewport, size, camera } = useThree();
@@ -206,16 +267,17 @@ function Tooth({ geometry, mobile, snapshot, onReady }: Opts & { geometry: Buffe
     const k = vp.height / size.height;
     g.position.x = (cx - size.width / 2) * k;
     g.position.y = -(cy - size.height / 2) * k;
-    g.scale.setScalar((a.height * k * (mobile ? 0.8 : 0.74)) / TOOTH_HEIGHT);
+    g.scale.setScalar((a.height * k * 0.74) / TOOTH_HEIGHT);
 
     if (t0.current === null) t0.current = state.clock.elapsedTime;
     const t = snapshot ? 0 : state.clock.elapsedTime - t0.current;
     // Gentle float, slow turntable, and a lean toward the pointer / phone tilt.
     s.position.y = Math.sin(t * 1.1) * 0.08;
+    lift.current = (s.position.y + 0.08) / 0.16 * 0.12;
     const targetY = INITIAL_ROT.y + t * 0.32 + pointer.current.x * 0.55;
     const targetX = INITIAL_ROT.x - pointer.current.y * 0.3;
-    s.rotation.y = snapshot ? INITIAL_ROT.y : MathUtils.damp(s.rotation.y, targetY, 4, dt);
-    s.rotation.x = snapshot ? INITIAL_ROT.x : MathUtils.damp(s.rotation.x, targetX, 4, dt);
+    s.rotation.y = snapshot ? pose.y : MathUtils.damp(s.rotation.y, targetY, 4, dt);
+    s.rotation.x = snapshot ? pose.x : MathUtils.damp(s.rotation.x, targetX, 4, dt);
     s.rotation.z = Math.sin(t * 0.7) * 0.04;
 
     if (!ready.current) {
@@ -227,20 +289,21 @@ function Tooth({ geometry, mobile, snapshot, onReady }: Opts & { geometry: Buffe
   return (
     <group ref={rig} name="tooth-rig">
       <group ref={spin} rotation={[INITIAL_ROT.x, INITIAL_ROT.y, 0]}>
-        <mesh geometry={geometry} material={material} />
+        <primitive object={model} />
       </group>
+      <Shadow lift={lift} />
       {!snapshot && <Particles count={mobile ? 70 : 140} pointer={pointer} />}
     </group>
   );
 }
 
 export default function ToothScene({ mobile, snapshot, onReady }: Opts) {
-  const [geometry, setGeometry] = useState<BufferGeometry | null>(null);
+  const [model, setModel] = useState<Object3D | null>(null);
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
     let alive = true;
-    loadToothMeshes().then((m) => alive && setGeometry(m.get("whole") ?? null));
+    loadTooth().then((m) => alive && setModel(m));
     return () => {
       alive = false;
     };
@@ -270,15 +333,15 @@ export default function ToothScene({ mobile, snapshot, onReady }: Opts) {
     >
       <ambientLight intensity={0.5} />
       <directionalLight position={[2, 4, 8]} intensity={1.9} />
-      <directionalLight position={[-5, -2, 2]} intensity={0.5} color="#cfe6f0" />
+      <directionalLight position={[-5, -2, 2]} intensity={0.45} color="#e8f2f6" />
       <Environment resolution={mobile ? 128 : 256} frames={1}>
         <Lightformer form="rect" intensity={2.4} position={[0, 4, 3]} scale={[8, 2, 1]} />
-        <Lightformer form="rect" intensity={1.4} color="#bfe9e5" position={[-5, 0, 1]} rotation-y={Math.PI / 2} scale={[6, 4, 1]} />
+        <Lightformer form="rect" intensity={1.3} color="#eef8f7" position={[-5, 0, 1]} rotation-y={Math.PI / 2} scale={[6, 4, 1]} />
         <Lightformer form="rect" intensity={1.2} color="#e8f4f9" position={[5, 1, 0]} rotation-y={-Math.PI / 2} scale={[6, 4, 1]} />
         <Lightformer form="ring" intensity={2.2} position={[0, 0, 6]} scale={3.5} />
         <Lightformer form="rect" intensity={1.6} position={[0, -4, 2]} rotation-x={-Math.PI / 2} scale={[6, 3, 1]} />
       </Environment>
-      {geometry && <Tooth geometry={geometry} mobile={mobile} snapshot={snapshot} onReady={onReady} />}
+      {model && <Tooth model={model} mobile={mobile} snapshot={snapshot} onReady={onReady} />}
     </Canvas>
   );
 }

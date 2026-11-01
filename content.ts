@@ -502,7 +502,7 @@ export const beforeAfter = {
   subtitle: "Drag the slider to compare. In-office whitening typically brightens teeth several shades in about 90 minutes.",
   before: { src: "/images/smile-before.jpg", label: "Before" },
   after: { src: "/images/smile-after.jpg", label: "After" },
-  alt: "Close-up of a smile",
+  alt: "A woman smiling, lower face",
   caption: "Illustration only: a simulated whitening result, not an actual patient. Individual results vary.",
   cta: "Book a whitening visit",
   points: ["Shade check before and after", "Low-sensitivity gel", "Take-home trays to keep it bright"],

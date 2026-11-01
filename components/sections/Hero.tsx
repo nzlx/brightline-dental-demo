@@ -32,7 +32,7 @@ export default function Hero() {
 
         {/* 3D stage: the canvas tracks this box. The image is the scene's first frame, shown until it loads. */}
         <div className="relative [grid-area:tooth] lg:self-center">
-          <div id="tooth-anchor" className="relative mx-auto aspect-[1/1.02] w-full max-w-[24rem] sm:max-w-md lg:aspect-[4/5] lg:max-w-none">
+          <div id="tooth-anchor" className="relative mx-auto my-5 aspect-[1/1.02] w-full max-w-[24rem] sm:max-w-md lg:my-0 lg:aspect-[4/5] lg:max-w-none">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/images/tooth-static.webp"
@@ -43,11 +43,11 @@ export default function Hero() {
               className="tooth-placeholder pointer-events-none absolute inset-0 h-full w-full select-none object-contain"
             />
 
-            <div className="glass fade-up absolute -left-1 bottom-[2%] rounded-2xl px-3 py-2 sm:-left-6 sm:bottom-[8%] sm:px-4 sm:py-3" style={{ animationDelay: "0.7s" }}>
+            <div className="glass fade-up absolute -left-1 bottom-0 rounded-2xl px-3 py-2 sm:-left-6 sm:bottom-0 sm:px-4 sm:py-3" style={{ animationDelay: "0.7s" }}>
               <OpenNow className="sm:min-w-[10.5rem]" />
             </div>
             <div
-              className="glass fade-up absolute right-0 top-[2%] flex items-center gap-2 rounded-2xl px-3 py-2 sm:-right-4 sm:top-[6%] sm:gap-2.5 sm:px-4 sm:py-3"
+              className="glass fade-up absolute right-0 top-0 flex items-center gap-2 rounded-2xl px-3 py-2 sm:-right-4 sm:top-0 sm:gap-2.5 sm:px-4 sm:py-3"
               style={{ animationDelay: "0.8s" }}
             >
               <span className="text-2xl font-extrabold leading-none tracking-tight text-ink">{hero.rating.value}</span>
@@ -62,7 +62,7 @@ export default function Hero() {
               <span className="sr-only">Rated {hero.rating.value} out of 5</span>
             </div>
             <div
-              className="glass fade-up absolute right-[2%] top-[58%] hidden items-center gap-2 rounded-full py-2 pl-2 pr-4 text-sm font-bold text-ink sm:flex"
+              className="glass fade-up absolute -right-8 top-[48%] hidden items-center gap-2 rounded-full py-2 pl-2 pr-4 text-sm font-bold text-ink sm:flex lg:-right-16"
               style={{ animationDelay: "0.9s" }}
             >
               <span className="grid h-7 w-7 place-items-center rounded-full bg-sun text-ink">

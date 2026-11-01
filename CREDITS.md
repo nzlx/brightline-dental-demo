@@ -10,9 +10,11 @@ Each one was chosen with no logos, badges or lettering in frame. They are croppe
 | `team-nguyen.jpg`, `avatar-nguyen.jpg` | https://unsplash.com/photos/1622902046580-2b47f47f5471 |
 | `team-shah.jpg`, `avatar-shah.jpg` | https://unsplash.com/photos/1757125736482-328a3cdd9743 |
 | `team-lopez.jpg`, `avatar-lopez.jpg` | https://unsplash.com/photos/1677195063105-276fd4b95b21 |
-| `smile-after.jpg`, `smile-before.jpg` | https://unsplash.com/photos/1489278353717-f64c6ee8a4d2 |
+| `smile-after.jpg`, `smile-before.jpg` | https://unsplash.com/photos/1758600588701-3aa5bb5d4e18 |
 
-`smile-before.jpg` is a simulated "before" made from the same photo (the teeth are slightly warmed in tone).
-The site labels the comparison as an illustration, not a real patient result.
+`smile-before.jpg` is a simulated "before" made from the same photo: only the teeth (selected with a mask) are darkened and warmed;
+skin, lips and hair are untouched. The site labels the comparison as an illustration, not a real patient result.
+
+The 3D tooth (`public/models/tooth.glb`) is original: it is modeled procedurally in `scripts/build-tooth.mjs`, no third-party model is used.
 
 Font: [Plus Jakarta Sans](https://fonts.google.com/specimen/Plus+Jakarta+Sans) (SIL Open Font License), self-hosted via Fontsource.
