@@ -1,0 +1,21 @@
+# dependencies
+node_modules
+
+# Next.js build output
+.next
+out
+next-env.d.ts
+*.tsbuildinfo
+
+# Vercel project link and local env (may contain tokens)
+.vercel
+.env*
+
+# local photo sources, prep scripts and QA screenshots
+.raw
+
+# logs and OS files
+npm-debug.log*
+yarn-error.log*
+.DS_Store
+Thumbs.db

@@ -1,0 +1,274 @@
+@import "tailwindcss";
+
+@theme {
+  --color-white: #ffffff;
+  --color-surface: #f5f9fb;
+  --color-sky: #e8f4f9;
+  --color-sky-deep: #cfe6f0;
+  --color-mint: #e2f5f2;
+  --color-teal: #14a8a0;
+  --color-teal-deep: #0b7c78;
+  --color-teal-dark: #08615e;
+  --color-sun: #ffe27a;
+  --color-sun-soft: #fff6d4;
+  --color-sun-deep: #8a6400;
+  --color-ink: #0f2a3d;
+  --color-muted: #546779;
+  --color-line: #e1eaef;
+  --color-danger: #c0362c;
+  --color-danger-soft: #fdeceb;
+  --color-ok: #1f8a5b;
+
+  --font-sans: var(--font-jakarta), system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-soft: cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+:root {
+  --header-h: 72px;
+  color-scheme: light;
+}
+
+html {
+  background: var(--color-white);
+  overflow-x: clip;
+  scroll-padding-top: var(--header-h);
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: var(--color-white);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-sun);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-teal-deep);
+  outline-offset: 3px;
+  border-radius: 10px;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+@layer components {
+  /* White card with a cool, soft shadow. */
+  .card {
+    background: var(--color-white);
+    border: 1px solid var(--color-line);
+    box-shadow: 0 30px 60px -40px rgb(15 42 61 / 0.25);
+  }
+
+  /* Small rounded label above section titles. */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.85rem;
+    border-radius: 999px;
+    background: var(--color-mint);
+    color: var(--color-teal-dark);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 999px;
+    background: var(--color-teal);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    min-height: 48px;
+    padding: 0 1.5rem;
+    border-radius: 999px;
+    font-weight: 700;
+    transition:
+      background-color 0.25s var(--ease-soft),
+      color 0.25s var(--ease-soft),
+      border-color 0.25s var(--ease-soft),
+      box-shadow 0.25s var(--ease-soft),
+      transform 0.3s var(--ease-out-expo),
+      opacity 0.2s;
+  }
+  .btn:active {
+    transform: scale(0.98);
+  }
+  .btn-primary {
+    background: var(--color-teal-deep);
+    color: #fff;
+    box-shadow: 0 14px 28px -14px rgb(11 124 120 / 0.7);
+  }
+  .btn-primary:hover {
+    background: var(--color-teal-dark);
+    box-shadow: 0 18px 32px -14px rgb(11 124 120 / 0.8);
+  }
+  .btn-outline {
+    border: 1.5px solid var(--color-line);
+    color: var(--color-ink);
+    background: var(--color-white);
+  }
+  .btn-outline:hover {
+    border-color: var(--color-teal-deep);
+    color: var(--color-teal-deep);
+  }
+  .btn-sun {
+    background: var(--color-sun);
+    color: var(--color-ink);
+  }
+  .btn-sun:hover {
+    background: #ffd84d;
+  }
+  .btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  /* Choice tiles in the booking wizard. */
+  .tile {
+    border: 1.5px solid var(--color-line);
+    background: var(--color-white);
+    border-radius: 1.25rem;
+    transition:
+      border-color 0.2s var(--ease-soft),
+      background-color 0.2s var(--ease-soft),
+      box-shadow 0.2s var(--ease-soft);
+  }
+  .tile:hover {
+    border-color: rgb(11 124 120 / 0.55);
+    box-shadow: 0 16px 30px -24px rgb(15 42 61 / 0.45);
+  }
+  .tile[aria-pressed="true"],
+  .tile[aria-checked="true"] {
+    border-color: var(--color-teal-deep);
+    background: #f2fbfa;
+    box-shadow: 0 0 0 1px var(--color-teal-deep) inset;
+  }
+
+  .field {
+    height: 3rem;
+    width: 100%;
+    border-radius: 0.875rem;
+    border: 1.5px solid var(--color-line);
+    background: var(--color-white);
+    padding: 0 1rem;
+    font-size: 1rem;
+    color: var(--color-ink);
+    transition: border-color 0.2s;
+  }
+  .field::placeholder {
+    color: rgb(84 103 121 / 0.6);
+  }
+  .field:focus {
+    outline: none;
+    border-color: var(--color-teal-deep);
+  }
+  .field[aria-invalid="true"] {
+    border-color: var(--color-danger);
+  }
+
+  /* Yellow marker behind a highlighted phrase. */
+  .marker {
+    background-image: linear-gradient(transparent 62%, var(--color-sun) 62%, var(--color-sun) 92%, transparent 92%);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    animation: marker-in 0.9s 0.45s var(--ease-out-expo) both;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+
+  .link {
+    color: var(--color-teal-deep);
+    font-weight: 600;
+    text-underline-offset: 4px;
+  }
+  .link:hover {
+    text-decoration: underline;
+  }
+}
+
+@keyframes marker-in {
+  from {
+    background-size: 0% 100%;
+  }
+  to {
+    background-size: 100% 100%;
+  }
+}
+
+/* Hero entrance: pure CSS so it starts on first paint. */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.fade-up {
+  animation: fade-up 0.8s var(--ease-out-expo) both;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+.float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes ping-soft {
+  from {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  to {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+.ping-soft {
+  animation: ping-soft 1.8s ease-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
