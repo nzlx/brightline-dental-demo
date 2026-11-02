@@ -61,7 +61,7 @@ export const hours: { day: number; label: string; open: string | null; close: st
  *  1. "The dentist your family actually looks forward to."   ← in use
  *  2. "Gentle dental care for every smile in your family."
  *  3. "Healthy smiles start right here in Austin."
- * `hero.highlight` is the phrase underlined with the yellow marker.
+ * `hero.highlight` is the phrase set in the teal → blue gradient.
  */
 export const hero = {
   eyebrow: "Family dentistry in South Austin",
@@ -74,8 +74,8 @@ export const hero = {
   cta: "Book a Visit",
   callCta: "Call Now",
   image: {
-    src: "/images/hero-smile.jpg",
-    alt: "A young woman laughing outdoors with a bright, healthy smile",
+    src: "/images/hero-clinic.jpg",
+    alt: "A smiling patient in a dental chair chatting with her dentist in a bright, modern treatment room",
   },
   trust: [
     { icon: "userPlus", label: "Accepting new patients" },

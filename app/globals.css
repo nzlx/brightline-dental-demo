@@ -191,12 +191,13 @@ html.lenis body {
     border-color: var(--color-danger);
   }
 
-  /* Yellow marker behind a highlighted phrase. */
-  .marker {
-    background-image: linear-gradient(transparent 62%, var(--color-sun) 62%, var(--color-sun) 92%, transparent 92%);
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    animation: marker-in 0.9s 0.45s var(--ease-out-expo) both;
+  /* Highlighted phrase: brand teal flowing into sky blue across the letters.
+     The blue end stays dark enough for large text (≥ 3:1 on white). */
+  .text-gradient {
+    background-image: linear-gradient(90deg, var(--color-teal-deep) 0%, var(--color-teal) 48%, #2a86c0 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
   }
@@ -208,15 +209,6 @@ html.lenis body {
   }
   .link:hover {
     text-decoration: underline;
-  }
-}
-
-@keyframes marker-in {
-  from {
-    background-size: 0% 100%;
-  }
-  to {
-    background-size: 100% 100%;
   }
 }
 

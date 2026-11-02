@@ -10,7 +10,7 @@ export const contentType = "image/png";
 export default async function OpengraphImage() {
   const [font, photo] = await Promise.all([
     readFile(join(process.cwd(), "app/fonts/plus-jakarta-sans-latin-800-normal.woff")),
-    readFile(join(process.cwd(), "public/images/hero-smile.jpg")),
+    readFile(join(process.cwd(), "public/images/hero-clinic.jpg")),
   ]);
   const img = `data:image/jpeg;base64,${photo.toString("base64")}`;
 
@@ -37,7 +37,7 @@ export default async function OpengraphImage() {
             <span>The dentist your family</span>
             <span style={{ display: "flex" }}>
               actually&nbsp;
-              <span style={{ background: "#ffe27a", padding: "0 8px", borderRadius: 8 }}>looks forward to.</span>
+              <span style={{ color: "#0b7c78" }}>looks forward to.</span>
             </span>
           </div>
           <div style={{ display: "flex", marginTop: 34, fontSize: 26, color: "#546779" }}>

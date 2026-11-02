@@ -25,7 +25,7 @@ export default function Hero() {
             {hero.titleLines.map((line, i) => (
               <span key={line} className="line-mask lg:whitespace-nowrap">
                 <span style={{ animationDelay: `${0.05 + i * 0.09}s` }}>
-                  {i === last ? <span className="marker">{line}</span> : line}
+                  {i === last ? <span className="text-gradient">{line}</span> : line}
                 </span>
               </span>
             ))}
@@ -51,12 +51,12 @@ export default function Hero() {
                 fetchPriority="high"
                 quality={70}
                 sizes="(min-width: 1280px) 520px, (min-width: 1024px) 42vw, (min-width: 640px) 512px, 92vw"
-                className="scale-[1.12] object-cover object-[50%_30%]"
+                className="scale-[1.12] object-cover object-[60%_0%] sm:object-[60%_22%]"
               />
             </Parallax>
 
             <div
-              className="glass pop-in absolute left-3 top-3 flex items-center gap-2 rounded-2xl px-3 py-2 sm:left-0 sm:top-6 sm:gap-2.5 sm:px-4 sm:py-3 lg:-left-2"
+              className="glass pop-in absolute bottom-3 right-3 flex items-center gap-2 rounded-2xl px-3 py-2 sm:-right-5 sm:bottom-6 sm:gap-2.5 sm:px-4 sm:py-3"
               style={{ animationDelay: "0.7s" }}
             >
               <span className="text-xl font-extrabold leading-none tracking-tight text-ink sm:text-2xl">{hero.rating.value}</span>
@@ -71,7 +71,7 @@ export default function Hero() {
               <span className="sr-only">Rated {hero.rating.value} out of 5</span>
             </div>
             <div
-              className="glass pop-in absolute right-3 top-3 flex items-center gap-1.5 rounded-full py-1.5 pl-1.5 pr-3 text-[0.72rem] font-bold text-ink sm:-right-5 sm:top-[56%] sm:gap-2 sm:py-2 sm:pl-2 sm:pr-4 sm:text-sm"
+              className="glass pop-in absolute right-3 top-3 flex items-center gap-1.5 rounded-full py-1.5 pl-1.5 pr-3 text-[0.72rem] font-bold text-ink sm:-right-5 sm:top-6 sm:gap-2 sm:py-2 sm:pl-2 sm:pr-4 sm:text-sm"
               style={{ animationDelay: "0.85s" }}
             >
               <span className="grid h-6 w-6 place-items-center rounded-full bg-sun text-ink sm:h-7 sm:w-7">
