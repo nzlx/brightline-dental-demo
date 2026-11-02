@@ -33,15 +33,10 @@ export default function Hero() {
         {/* 3D stage: the canvas tracks this box. The image is the scene's first frame, shown until it loads. */}
         <div className="relative [grid-area:tooth] lg:self-center">
           <div id="tooth-anchor" className="relative mx-auto my-5 aspect-[1/1.02] w-full max-w-[24rem] sm:max-w-md lg:my-0 lg:aspect-[4/5] lg:max-w-none">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/images/tooth-static.webp"
-              alt={hero.toothAlt}
-              width={800}
-              height={1000}
-              fetchPriority="low"
-              className="tooth-placeholder pointer-events-none absolute inset-0 h-full w-full select-none object-contain"
-            />
+            {/* Loading placeholder: a soft glow where the tooth will appear; fades out on the first 3D frame. */}
+            <div className="tooth-placeholder pointer-events-none absolute inset-0 grid place-items-center" role="img" aria-label={hero.toothAlt}>
+              <span className="tooth-glow" />
+            </div>
 
             <div className="glass fade-up absolute -left-1 bottom-0 rounded-2xl px-3 py-2 sm:-left-6 sm:bottom-0 sm:px-4 sm:py-3" style={{ animationDelay: "0.7s" }}>
               <OpenNow className="sm:min-w-[10.5rem]" />

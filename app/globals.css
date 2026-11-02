@@ -429,3 +429,18 @@ html[data-tooth-live] .tooth-placeholder {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Hero 3D loading placeholder. */
+.tooth-glow {
+  width: 58%;
+  aspect-ratio: 1;
+  border-radius: 9999px;
+  background: radial-gradient(closest-side, rgb(20 168 160 / 0.2), rgb(207 230 240 / 0.35) 45%, transparent 72%);
+  animation: tooth-glow 2.4s ease-in-out infinite;
+}
+@keyframes tooth-glow {
+  50% {
+    transform: scale(1.08);
+    opacity: 0.7;
+  }
+}

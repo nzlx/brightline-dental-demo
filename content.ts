@@ -86,6 +86,22 @@ export const hero = {
   rating: { value: "4.9", label: "312 patient reviews" },
 };
 
+/**
+ * The hero's 3D tooth: a Sketchfab model under CC BY, so the author must be credited
+ * (CREDITS.md and the footer). Fill in `credit` from the model page before publishing.
+ */
+export const toothModel = {
+  src: "/models/tooth.glb",
+  /** Euler rotation (radians) that stands the downloaded model crown-up, if it isn't already. */
+  uprightRotation: [0, 0, 0] as [number, number, number],
+  credit: {
+    author: "",
+    href: "",
+    license: "CC BY 4.0",
+    licenseHref: "https://creativecommons.org/licenses/by/4.0/",
+  },
+};
+
 export type ProviderId = "carter" | "nguyen" | "shah" | "lopez";
 
 export type Provider = {

@@ -1,4 +1,4 @@
-import { contacts, footer, nav, site, socials } from "@/content";
+import { contacts, footer, nav, site, socials, toothModel } from "@/content";
 import { groupedHours } from "@/lib/hours";
 import Logo from "./Logo";
 import BookButton from "./ui/BookButton";
@@ -99,9 +99,34 @@ export default function Footer() {
 
       <div className="border-t border-white/10">
         <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-6 text-xs text-white/55 sm:px-6 md:flex-row md:items-center md:justify-between">
-          <p>
-            © {new Date().getFullYear()} {site.name}. {footer.demoNote}
-          </p>
+          <div className="space-y-1">
+            <p>
+              © {new Date().getFullYear()} {site.name}. {footer.demoNote}
+            </p>
+            {/* CC BY requires crediting the 3D model's author. */}
+            {toothModel.credit.author && (
+              <p>
+                3D tooth model by{" "}
+                <a
+                  href={toothModel.credit.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline-offset-2 hover:text-white hover:underline"
+                >
+                  {toothModel.credit.author}
+                </a>
+                ,{" "}
+                <a
+                  href={toothModel.credit.licenseHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline-offset-2 hover:text-white hover:underline"
+                >
+                  CC BY
+                </a>
+              </p>
+            )}
+          </div>
           <a href={site.credit.href} className="shrink-0 font-semibold text-white/80 hover:text-white">
             {site.credit.label}
           </a>
