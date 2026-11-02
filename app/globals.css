@@ -38,7 +38,7 @@ html {
 }
 
 body {
-  /* No body background: the fixed 3D layer (z-index -1) must show through the hero. */
+  background: var(--color-white);
   color: var(--color-ink);
   font-family: var(--font-sans);
   text-rendering: optimizeLegibility;
@@ -262,30 +262,11 @@ html.lenis body {
   animation: ping-soft 1.8s ease-out infinite;
 }
 
-/* The 3D layer sits behind all in-flow content (body has no background of its own),
-   so it shows through the transparent hero and is covered by sections with a background. */
-.tooth-canvas {
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100lvh;
-  z-index: -1;
-  pointer-events: none;
-}
-/* Placeholder image hands over to the live scene once its first frame is drawn. */
-.tooth-placeholder {
-  transition: opacity 0.7s var(--ease-soft);
-}
-html[data-tooth-live] .tooth-placeholder {
-  opacity: 0;
-}
-
 /* Hero mesh gradient: big soft color fields drifting slowly (transforms only, no blur filter). */
 .mesh {
   position: absolute;
   inset: 0;
-  z-index: -2;
+  z-index: -1;
   overflow: hidden;
   background: #fff;
 }
@@ -362,16 +343,16 @@ html[data-tooth-live] .tooth-placeholder {
   }
 }
 
-/* Hero layout: phones stack headline → tooth → copy; desktop puts the tooth beside both. */
+/* Hero layout: phones stack headline → photo → copy; desktop puts the photo beside both. */
 .hero-grid {
-  grid-template-areas: "head" "tooth" "rest";
+  grid-template-areas: "head" "media" "rest";
   align-content: center;
 }
 @media (min-width: 64rem) {
   .hero-grid {
     grid-template-columns: 1.12fr 0.88fr;
     grid-template-rows: auto auto;
-    grid-template-areas: "head tooth" "rest tooth";
+    grid-template-areas: "head media" "rest media";
   }
 }
 
@@ -392,9 +373,24 @@ html[data-tooth-live] .tooth-placeholder {
   animation: scroll-dot 1.8s ease-in-out infinite;
 }
 
-/* Frosted glass for floating cards over the 3D scene. */
+/* Glass cards on the hero photo: fade, lift and settle in one after another (delays set inline). */
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.pop-in {
+  animation: pop-in 0.8s var(--ease-out-expo) both;
+}
+
+/* Frosted glass for floating cards over the hero photo. */
 .glass {
-  background: rgb(255 255 255 / 0.55);
+  background: rgb(255 255 255 / 0.74);
   -webkit-backdrop-filter: blur(16px) saturate(1.4);
   backdrop-filter: blur(16px) saturate(1.4);
   border: 1px solid rgb(255 255 255 / 0.75);
@@ -427,20 +423,5 @@ html[data-tooth-live] .tooth-placeholder {
     animation-delay: 0ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-  }
-}
-
-/* Hero 3D loading placeholder. */
-.tooth-glow {
-  width: 58%;
-  aspect-ratio: 1;
-  border-radius: 9999px;
-  background: radial-gradient(closest-side, rgb(20 168 160 / 0.2), rgb(207 230 240 / 0.35) 45%, transparent 72%);
-  animation: tooth-glow 2.4s ease-in-out infinite;
-}
-@keyframes tooth-glow {
-  50% {
-    transform: scale(1.08);
-    opacity: 0.7;
   }
 }

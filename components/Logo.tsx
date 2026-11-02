@@ -8,7 +8,7 @@ export default function Logo({ className = "" }: { className?: string }) {
         <path d="M28.5 7.5l1.2 3 3 1.2-3 1.2-1.2 3-1.2-3-3-1.2 3-1.2z" fill="#ffe27a" />
       </svg>
       <span className="leading-none">
-        <span className="block text-[1.15rem] font-extrabold tracking-[-0.02em] text-ink">Brightline</span>
+        <span className="block text-[1.15rem] font-extrabold tracking-[-0.02em] text-ink">Brightline</span>{" "}
         <span className="mt-1 block text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-muted">Family Dental</span>
       </span>
     </span>

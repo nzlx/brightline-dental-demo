@@ -15,6 +15,4 @@ Each one was chosen with no logos, badges or lettering in frame. They are croppe
 `smile-before.jpg` is a simulated "before" made from the same photo: only the teeth (selected with a mask) are darkened and warmed;
 skin, lips and hair are untouched. The site labels the comparison as an illustration, not a real patient result.
 
-The 3D tooth (`public/models/tooth.glb`) is original: it is modeled procedurally in `scripts/build-tooth.mjs`, no third-party model is used.
-
 Font: [Plus Jakarta Sans](https://fonts.google.com/specimen/Plus+Jakarta+Sans) (SIL Open Font License), self-hosted via Fontsource.

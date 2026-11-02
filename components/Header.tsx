@@ -61,8 +61,9 @@ export default function Header() {
       }`}
     >
       <div className="mx-auto flex h-[72px] max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
-        <a href="#top" aria-label="Brightline Family Dental, back to top" className="rounded-xl" onClick={close}>
+        <a href="#top" className="rounded-xl" onClick={close}>
           <Logo />
+          <span className="sr-only">, back to top</span>
         </a>
 
         <nav aria-label="Main" className="hidden lg:block">
@@ -121,7 +122,12 @@ export default function Header() {
             <nav aria-label="Mobile" className="px-5 pb-10 pt-4">
               <ul>
                 {nav.map((n, i) => (
-                  <m.li key={n.href} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.03 * i + 0.04 }}>
+                  <m.li
+                    key={n.href}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.03 * i + 0.04 }}
+                  >
                     <a
                       href={n.href}
                       onClick={close}

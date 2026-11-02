@@ -154,7 +154,7 @@ export default function Reviews() {
           </ul>
 
           <div className="mt-6 flex items-center justify-between gap-4">
-            <div className="flex gap-1.5" role="group" aria-label="Choose a review">
+            <div className="flex" role="group" aria-label="Choose a review">
               {Array.from({ length: pages }, (_, i) => (
                 <button
                   key={i}
@@ -162,7 +162,7 @@ export default function Reviews() {
                   aria-label={`Show review ${i + 1}`}
                   aria-current={i === active ? "true" : undefined}
                   onClick={() => goTo(i)}
-                  className="grid h-6 place-items-center"
+                  className="grid h-6 min-w-6 place-items-center"
                 >
                   <span className={`block h-2 rounded-full transition-all duration-300 ${i === active ? "w-6 bg-teal-deep" : "w-2 bg-line"}`} />
                 </button>

@@ -13,9 +13,7 @@ export default function Services() {
 
   return (
     <section id="services" aria-labelledby="services-title" className="px-4 py-20 sm:px-6 md:py-28">
-      <div className="relative mx-auto max-w-6xl">
-        {/* Landing spot for the hero tooth, which glides and shrinks here on scroll. */}
-        <div id="tooth-anchor-services" aria-hidden="true" className="pointer-events-none mx-auto mb-4 h-44 w-36 lg:absolute lg:-top-6 lg:right-4 lg:mb-0 lg:h-[19rem] lg:w-60" />
+      <div className="mx-auto max-w-6xl">
         <SectionHeader id="services-title" {...servicesSection} />
 
         {/* Rows stretch, so every card in a row is the same height and "Learn more" lines up at the bottom. */}

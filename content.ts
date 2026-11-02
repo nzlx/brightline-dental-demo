@@ -69,7 +69,6 @@ export const hero = {
   highlight: "looks forward to.",
   /** The title broken into the lines that rise from under the mask (the last one is highlighted). */
   titleLines: ["The dentist your", "family actually", "looks forward to."],
-  toothAlt: "A glossy 3D model of a healthy molar",
   subtitle:
     "Cleanings, fillings, whitening and same-day emergencies — with a team that explains everything and never rushes you.",
   cta: "Book a Visit",
@@ -84,22 +83,6 @@ export const hero = {
     { icon: "bolt", label: "Same-day emergencies" },
   ],
   rating: { value: "4.9", label: "312 patient reviews" },
-};
-
-/**
- * The hero's 3D tooth: a Sketchfab model under CC BY, so the author must be credited
- * (CREDITS.md and the footer). Fill in `credit` from the model page before publishing.
- */
-export const toothModel = {
-  src: "/models/tooth.glb",
-  /** Euler rotation (radians) that stands the downloaded model crown-up, if it isn't already. */
-  uprightRotation: [0, 0, 0] as [number, number, number],
-  credit: {
-    author: "",
-    href: "",
-    license: "CC BY 4.0",
-    licenseHref: "https://creativecommons.org/licenses/by/4.0/",
-  },
 };
 
 export type ProviderId = "carter" | "nguyen" | "shah" | "lopez";

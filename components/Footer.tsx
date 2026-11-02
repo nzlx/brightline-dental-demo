@@ -1,4 +1,4 @@
-import { contacts, footer, nav, site, socials, toothModel } from "@/content";
+import { contacts, footer, nav, site, socials } from "@/content";
 import { groupedHours } from "@/lib/hours";
 import Logo from "./Logo";
 import BookButton from "./ui/BookButton";
@@ -13,7 +13,7 @@ export default function Footer() {
         <div className="flex flex-col items-start justify-between gap-6 rounded-[1.75rem] bg-teal-deep px-6 py-8 sm:px-10 md:flex-row md:items-center">
           <div>
             <p className="text-2xl font-extrabold tracking-[-0.02em] text-white sm:text-3xl">Ready when you are.</p>
-            <p className="mt-1 text-white/80">Book online in a minute, or give us a call. We&apos;re happy to help.</p>
+            <p className="mt-1 text-white">Book online in a minute, or give us a call. We&apos;re happy to help.</p>
           </div>
           <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
             <BookButton className="btn btn-sun h-12">
@@ -103,29 +103,6 @@ export default function Footer() {
             <p>
               © {new Date().getFullYear()} {site.name}. {footer.demoNote}
             </p>
-            {/* CC BY requires crediting the 3D model's author. */}
-            {toothModel.credit.author && (
-              <p>
-                3D tooth model by{" "}
-                <a
-                  href={toothModel.credit.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline-offset-2 hover:text-white hover:underline"
-                >
-                  {toothModel.credit.author}
-                </a>
-                ,{" "}
-                <a
-                  href={toothModel.credit.licenseHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline-offset-2 hover:text-white hover:underline"
-                >
-                  CC BY
-                </a>
-              </p>
-            )}
           </div>
           <a href={site.credit.href} className="shrink-0 font-semibold text-white/80 hover:text-white">
             {site.credit.label}
