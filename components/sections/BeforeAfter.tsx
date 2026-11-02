@@ -53,8 +53,8 @@ export default function BeforeAfter() {
                 src={ba.after.src}
                 alt={`${ba.alt}, after whitening (simulated)`}
                 fill
-                quality={75}
-                sizes="(min-width: 1024px) 640px, 92vw"
+                quality={85}
+                sizes="(min-width: 1152px) 680px, (min-width: 1024px) 58vw, 100vw"
                 className="pointer-events-none object-cover"
                 draggable={false}
               />
@@ -63,8 +63,8 @@ export default function BeforeAfter() {
                   src={ba.before.src}
                   alt={`${ba.alt}, before whitening (simulated)`}
                   fill
-                  quality={75}
-                  sizes="(min-width: 1024px) 640px, 92vw"
+                  quality={85}
+                  sizes="(min-width: 1152px) 680px, (min-width: 1024px) 58vw, 100vw"
                   className="pointer-events-none object-cover"
                   draggable={false}
                 />

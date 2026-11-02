@@ -22,8 +22,8 @@ export default function Team() {
                       src={p.photo}
                       alt={p.photoAlt}
                       fill
-                      quality={70}
-                      sizes="(min-width: 1024px) 270px, (min-width: 640px) 45vw, 92vw"
+                      quality={85}
+                      sizes="(min-width: 1152px) 280px, (min-width: 1024px) 24vw, (min-width: 640px) 46vw, 100vw"
                       className="object-cover object-top"
                     />
                     <span className="absolute bottom-3 left-3 rounded-full bg-white/95 px-3 py-1 text-xs font-bold text-teal-dark shadow-sm">

@@ -10,9 +10,9 @@ export const contentType = "image/png";
 export default async function OpengraphImage() {
   const [font, photo] = await Promise.all([
     readFile(join(process.cwd(), "app/fonts/plus-jakarta-sans-latin-800-normal.woff")),
-    readFile(join(process.cwd(), "public/images/hero-clinic.jpg")),
+    readFile(join(process.cwd(), "public/images/hero-clinic.png")),
   ]);
-  const img = `data:image/jpeg;base64,${photo.toString("base64")}`;
+  const img = `data:image/png;base64,${photo.toString("base64")}`;
 
   return new ImageResponse(
     (

@@ -74,8 +74,8 @@ export const hero = {
   cta: "Book a Visit",
   callCta: "Call Now",
   image: {
-    src: "/images/hero-clinic.jpg",
-    alt: "A smiling patient in a dental chair chatting with her dentist in a bright, modern treatment room",
+    src: "/images/hero-clinic.png",
+    alt: "A laughing patient in a dental chair talking with her dentist in a bright, modern treatment room",
   },
   trust: [
     { icon: "userPlus", label: "Accepting new patients" },

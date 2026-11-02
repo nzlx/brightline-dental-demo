@@ -55,7 +55,7 @@ const jsonLd = {
   url: site.url,
   telephone: contacts.phoneHref.replace("tel:", ""),
   priceRange: "$$",
-  image: `${site.url}/images/hero-clinic.jpg`,
+  image: `${site.url}/images/hero-clinic.png`,
   address: {
     "@type": "PostalAddress",
     streetAddress: contacts.address.street,

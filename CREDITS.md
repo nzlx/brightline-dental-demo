@@ -5,7 +5,7 @@ Each one was chosen with no logos, badges or lettering in frame. They are croppe
 
 | File | Unsplash photo |
 | --- | --- |
-| `hero-clinic.jpg` | https://unsplash.com/photos/1777331903190-341a3dd0441b (cropped so the wall monitor is out of frame) |
+| `hero-clinic.png` | Supplied by the site owner |
 | `team-carter.jpg`, `avatar-carter.jpg` | https://unsplash.com/photos/1643297654416-05795d62e39c |
 | `team-nguyen.jpg`, `avatar-nguyen.jpg` | https://unsplash.com/photos/1622902046580-2b47f47f5471 |
 | `team-shah.jpg`, `avatar-shah.jpg` | https://unsplash.com/photos/1757125736482-328a3cdd9743 |

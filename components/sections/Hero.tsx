@@ -35,24 +35,24 @@ export default function Hero() {
         {/* Photo with a soft yellow backing; glass cards sit on its edges and pop in one by one. */}
         <div className="relative [grid-area:media] lg:self-center">
           <div className="relative mx-auto my-6 w-full max-w-md sm:max-w-lg lg:my-0 lg:max-w-none lg:pl-6">
-            <div
-              className="absolute -right-3 -top-3 h-3/4 w-3/4 rounded-[2rem] bg-sun-soft sm:-right-5 sm:-top-5"
-              aria-hidden="true"
-            />
+            {/* Subtle parallax: the photo box is only 4% taller than the frame, so the image is barely enlarged
+                (no scale-up) and `sizes` matches the real rendered width. */}
             <Parallax
               className="relative aspect-[5/4] overflow-hidden rounded-[2rem] bg-sky shadow-[0_40px_80px_-40px_rgb(15_42_61/0.5)] sm:aspect-[4/5]"
-              amount={0.12}
+              amount={0.04}
             >
-              <Image
-                src={hero.image.src}
-                alt={hero.image.alt}
-                fill
-                priority
-                fetchPriority="high"
-                quality={70}
-                sizes="(min-width: 1280px) 520px, (min-width: 1024px) 42vw, (min-width: 640px) 512px, 92vw"
-                className="scale-[1.12] object-cover object-[60%_0%] sm:object-[60%_22%]"
-              />
+              <div className="absolute inset-x-0 -bottom-[4%] -top-[4%]">
+                <Image
+                  src={hero.image.src}
+                  alt={hero.image.alt}
+                  fill
+                  priority
+                  fetchPriority="high"
+                  quality={90}
+                  sizes="(min-width: 1280px) 580px, (min-width: 1024px) 46vw, (min-width: 640px) 512px, 100vw"
+                  className="object-cover object-[50%_20%] sm:object-center"
+                />
+              </div>
             </Parallax>
 
             <div
@@ -71,7 +71,7 @@ export default function Hero() {
               <span className="sr-only">Rated {hero.rating.value} out of 5</span>
             </div>
             <div
-              className="glass pop-in absolute right-3 top-3 flex items-center gap-1.5 rounded-full py-1.5 pl-1.5 pr-3 text-[0.72rem] font-bold text-ink sm:-right-5 sm:top-6 sm:gap-2 sm:py-2 sm:pl-2 sm:pr-4 sm:text-sm"
+              className="glass pop-in absolute left-3 top-3 flex items-center gap-1.5 rounded-full sm:left-auto py-1.5 pl-1.5 pr-3 text-[0.72rem] font-bold text-ink sm:-right-5 sm:top-6 sm:gap-2 sm:py-2 sm:pl-2 sm:pr-4 sm:text-sm"
               style={{ animationDelay: "0.85s" }}
             >
               <span className="grid h-6 w-6 place-items-center rounded-full bg-sun text-ink sm:h-7 sm:w-7">
