@@ -7,7 +7,8 @@
 export const site = {
   name: "Brightline Family Dental",
   shortName: "Brightline Dental",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://brightline-dental-demo.vercel.app",
+  // brightline-dental-demo.vercel.app belongs to another site, so Vercel assigned this production domain.
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://brightline-dental-demo-wine.vercel.app",
   description:
     "Family dentist in South Austin, TX. Cleanings, fillings, whitening, clear aligners, implants, kids' dentistry and same-day emergencies. Most insurance accepted. Book online in a minute.",
   established: 2012,
